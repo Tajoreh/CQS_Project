@@ -1,3 +1,5 @@
+namespace Api.Configurations;
+
 public class SqlServerConfiguration
 {
     public string CommandConnectionString { get; set; }

@@ -23,8 +23,10 @@ public class PeopleModule: Module
     {
         builder.RegisterType<AutofacCommandHandlerResolver>().As<ICommandHandlerResolver>().InstancePerLifetimeScope();
         builder.RegisterType<AutofacQueryHandlerResolver>().As<IQueryHandlerResolver>().InstancePerLifetimeScope();
+        builder.RegisterType<AutofacRequestHandlerResolver>().As<IRequestHandlerResolver>().InstancePerLifetimeScope();
         builder.RegisterType<QueryBus>().As<IQueryBus>().InstancePerLifetimeScope();
         builder.RegisterType<CommandBus>().As<ICommandBus>().InstancePerLifetimeScope();
+        builder.RegisterType<RequestBus>().As<IRequestBus>().InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(typeof(PersonCommandHandlers).Assembly)
             .As(type => type.GetInterfaces()
@@ -35,6 +37,12 @@ public class PeopleModule: Module
         builder
             .RegisterAssemblyTypes(typeof(PersonQueryHandlers).Assembly)
             .AsClosedTypesOf(typeof(IQueryHandler<,>))
+            .AsImplementedInterfaces()
+            .InstancePerLifetimeScope();  
+        
+        builder
+            .RegisterAssemblyTypes(typeof(PersonRequestHandlers).Assembly)
+            .AsClosedTypesOf(typeof(IRequestHandler<,>))
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
 

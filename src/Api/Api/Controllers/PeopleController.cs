@@ -8,23 +8,36 @@ namespace Api.Controllers;
 [Route("[controller]")]
 public class PeopleController : ControllerBase
 {
-    private readonly ICommandBus _commandBus;
-    public PeopleController(ICommandBus commandBus)
+    private readonly IRequestBus _requestBus;
+    public PeopleController(IRequestBus requestBus)
     {
-        _commandBus = commandBus;
+        _requestBus = requestBus;
     }
 
+    //[HttpPost]
+    //public async Task<IActionResult> Create([FromBody] CreatePersonRequest request)
+    //{
+    //    var command = new CreatePersonCommand()
+    //    {
+    //        FirstName = request.FirstName,
+    //        LastName = request.LastName
+    //    };
+
+    //    await _requestBus.Dispatch(command);
+
+    //    return Ok();
+    //}
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreatePersonRequest request)
+    public async Task<IActionResult> Create([FromBody] CreatePersonRequest request, CancellationToken cancellationToken = default)
     {
-        var command = new CreatePersonCommand()
+        var personRequest = new Application.CreatePersonRequest()
         {
             FirstName = request.FirstName,
             LastName = request.LastName
         };
 
-        await _commandBus.Dispatch(command);
+        var id = await _requestBus.Dispatch<Application.CreatePersonRequest, long>(personRequest, cancellationToken);
 
-        return Ok();
+        return Ok(id);
     }
 }
