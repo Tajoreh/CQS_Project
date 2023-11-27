@@ -2,6 +2,4 @@
 
 public interface ICommand
 {
-}public interface IRepository
-{
 }
