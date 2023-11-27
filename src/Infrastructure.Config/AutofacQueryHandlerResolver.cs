@@ -8,10 +8,10 @@ namespace Infrastructure.Config; public class AutofacQueryHandlerResolver : IQue
 {
     private readonly ILifetimeScope _lifetimeScope;
 
-    //public AutofacQueryHandlerResolver(ILifetimeScope lifetimeScope)
-    //{
-    //    _lifetimeScope = lifetimeScope;
-    //}
+    public AutofacQueryHandlerResolver(ILifetimeScope lifetimeScope)
+    {
+        _lifetimeScope = lifetimeScope;
+    }
     public IQueryHandler<TRequest, TResponse> ResolveHandlers<TRequest, TResponse>(TRequest request) where TRequest : IQuery
     {
         return _lifetimeScope.Resolve<IQueryHandler<TRequest, TResponse>>();
