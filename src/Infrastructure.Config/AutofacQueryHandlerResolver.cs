@@ -19,15 +19,3 @@ public class AutofacQueryHandlerResolver : IQueryHandlerResolver
         return _lifetimeScope.Resolve<IQueryHandler<TRequest, TResponse>>();
     }
 }
-public class AutofacRequestHandlerResolver : IRequestHandlerResolver
-{
-    private readonly IComponentContext _context;
-    public AutofacRequestHandlerResolver(IComponentContext context)
-    {
-        _context = context;
-    }
-    public IRequestHandler<TRequest, TResponse> ResolveHandler<TRequest, TResponse>(TRequest request) where TRequest : IRequest
-    {
-        return _context.Resolve<IRequestHandler<TRequest, TResponse>>();
-    }
-}
