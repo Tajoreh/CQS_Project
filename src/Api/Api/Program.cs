@@ -14,27 +14,23 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
+    //containerBuilder.Populate(builder.Services);
 
-    containerBuilder.Populate(builder.Services);
-
+    // Register your modules or other dependencies here
     containerBuilder.RegisterModule(new PeopleModule(sqlConfiguration.CommandConnectionString,
         sqlConfiguration.QueryConnectionString));
 });
 
-
 builder.Services.AddControllers(config =>
 {
-   config.Conventions.Add(new CqrsConvention());
+    config.Conventions.Add(new CqrsConvention());
 });
 
 var app = builder.Build();
-// Configure the HTTP request pipeline.
+
 app.UseRouting();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 
 app.Run();
